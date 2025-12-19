@@ -182,9 +182,17 @@ class SelicProbabilityModel:
         Returns:
             Dict com cenários: {nome: (probabilidade, descrição)}
         """
-        dovish_prob = self.probability_range(10.5, 11.5)
-        central_prob = self.probability_range(11.5, 12.5)
-        hawkish_prob = self.probability_range(12.5, 14.0)
+        # Use interval partitioning without overlap to ensure probabilities sum to ~1.0
+        # dovish: [10.5, 11.5) ; central: [11.5, 12.5) ; hawkish: [12.5, 14.0]
+        dovish_prob = sum(
+            prob for level, prob in self.states.items() if 10.5 <= level < 11.5
+        )
+        central_prob = sum(
+            prob for level, prob in self.states.items() if 11.5 <= level < 12.5
+        )
+        hawkish_prob = sum(
+            prob for level, prob in self.states.items() if 12.5 <= level <= 14.0
+        )
 
         return {
             "Dovish (corte agressivo)": (

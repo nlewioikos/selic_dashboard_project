@@ -50,30 +50,37 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# CSS customizado
+# CSS customizado (melhor estética para cards de cenário)
 st.markdown("""
 <style>
+    /* Reset pequeno para tipografia */
+    .stApp { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+
     .metric-card {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        border-left: 4px solid #1f77b4;
+        background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+        padding: 20px 22px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+        border: 1px solid rgba(31,41,55,0.06);
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
-    .warning-card {
-        background-color: #ffe6e6;
-        border-left-color: #ff6b6b;
-    }
-    .success-card {
-        background-color: #e6ffe6;
-        border-left-color: #51cf66;
-    }
-    h1 {
-        color: #1f77b4;
-    }
-    h2 {
-        color: #1f77b4;
-        border-bottom: 2px solid #1f77b4;
-        padding-bottom: 10px;
+
+    .metric-card h3 { margin: 0; font-size: 16px; color: #374151; font-weight: 600; }
+    .metric-card .metric-value { font-size: 34px; font-weight: 700; color: #0f172a; margin: 6px 0; }
+    .metric-card p { margin: 0; color: #6b7280; font-size: 13px; line-height: 1.3; }
+
+    .metric-bar { height: 8px; background: rgba(99,102,241,0.08); border-radius: 999px; margin-top: 12px; overflow: hidden; }
+    .metric-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg,#4f46e5,#06b6d4); box-shadow: 0 3px 8px rgba(79,70,229,0.18); }
+
+    .success-card .metric-fill { background: linear-gradient(90deg,#10b981,#34d399); box-shadow: 0 3px 8px rgba(16,185,129,0.12); }
+    .warning-card .metric-fill { background: linear-gradient(90deg,#fb7185,#fb923c); box-shadow: 0 3px 8px rgba(251,113,133,0.12); }
+
+    /* Ajustes responsivos para colunas */
+    @media (max-width: 900px) {
+        .metric-card .metric-value { font-size: 26px; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -348,9 +355,12 @@ if page == "📈 Dashboard":
         prob_dovish, desc_dovish = scenarios["Dovish (corte agressivo)"]
         st.markdown(f"""
         <div class='metric-card success-card'>
-            <h3>🕊️ Dovish</h3>
-            <h2>{prob_dovish*100:.1f}%</h2>
-            <p>{desc_dovish}</p>
+            <div>
+                <h3>🕊️ Dovish</h3>
+                <div class='metric-value'>{prob_dovish*100:.1f}%</div>
+                <p>{desc_dovish}</p>
+            </div>
+            <div class='metric-bar'><div class='metric-fill' style='width: {prob_dovish*100:.1f}%;'></div></div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -358,9 +368,12 @@ if page == "📈 Dashboard":
         prob_central, desc_central = scenarios["Central (corte gradual)"]
         st.markdown(f"""
         <div class='metric-card'>
-            <h3>⚖️ Central</h3>
-            <h2>{prob_central*100:.1f}%</h2>
-            <p>{desc_central}</p>
+            <div>
+                <h3>⚖️ Central</h3>
+                <div class='metric-value'>{prob_central*100:.1f}%</div>
+                <p>{desc_central}</p>
+            </div>
+            <div class='metric-bar'><div class='metric-fill' style='width: {prob_central*100:.1f}%;'></div></div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -368,9 +381,12 @@ if page == "📈 Dashboard":
         prob_hawkish, desc_hawkish = scenarios["Hawkish (hold conservador)"]
         st.markdown(f"""
         <div class='metric-card warning-card'>
-            <h3>🦅 Hawkish</h3>
-            <h2>{prob_hawkish*100:.1f}%</h2>
-            <p>{desc_hawkish}</p>
+            <div>
+                <h3>🦅 Hawkish</h3>
+                <div class='metric-value'>{prob_hawkish*100:.1f}%</div>
+                <p>{desc_hawkish}</p>
+            </div>
+            <div class='metric-bar'><div class='metric-fill' style='width: {prob_hawkish*100:.1f}%;'></div></div>
         </div>
         """, unsafe_allow_html=True)
 
