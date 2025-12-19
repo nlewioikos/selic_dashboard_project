@@ -1,0 +1,10 @@
+streamlit==1.40.1
+pandas==2.3.3
+numpy==2.3.5
+plotly==5.18.0
+requests==2.31.0
+python-dotenv==1.0.0
+beautifulsoup4==4.12.2
+# lxml==4.9.3           # removido para não compilar no Windows
+twilio==8.10.0
+pytz==2023.3
